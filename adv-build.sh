@@ -518,7 +518,7 @@ function g_clone() {
 function init_local_manifest() {
 	force_clone device/phh/treble device_phh_treble
         force_clone vendor/vndk vendor_vndk master
-	if [[ "$localManifestBranch" = *"9"* ]]; then
+	if [[ "$localManifestBranch" = *"10"* ]]; then
 		force_clone vendor/interfaces vendor_interfaces pie
 		force_clone vendor/hardware_overlay vendor_hardware_overlay pie
 	else
@@ -549,13 +549,13 @@ function add_mks() {
 }
 
 function fix_missings() {
-	if [[ "$localManifestBranch" == *"9"* ]]; then
+	if [[ "$localManifestBranch" == *"10"* ]]; then
 		# fix kernel source missing (on pie)
 		sed 's;.*KERNEL_;//&;' -i vendor/*/build/soong/Android.bp 2>/dev/null || true
 		rm -rf vendor/*/packages/overlays/NoCutout*
 	fi
 	mkdir -p device/sample/etc
-	wget --output-document=device/sample/etc/apns-full-conf.xml https://github.com/LineageOS/android_vendor_lineage/raw/lineage-16.0/prebuilt/common/etc/apns-conf.xml 2>/dev/null
+	wget --output-document=device/sample/etc/apns-full-conf.xml https://github.com/LineageOS/android_vendor_lineage/raw/lineage-17.0/prebuilt/common/etc/apns-conf.xml 2>/dev/null
 
 }
 
@@ -573,7 +573,7 @@ function gen_mk() {
 	if [[ -n "$gen_mk" ]]; then
 		ldir=${PWD}
 		gen_lunch=${gen_mk}_${gen_target}
-		[ "$localManifestBranch" = *"9"* ] && gen_mk=$gen_lunch
+		[ "$localManifestBranch" = *"10"* ] && gen_mk=$gen_lunch
 		cd device/phh/treble
 		cp $target_name.mk $gen_mk.mk
 		sed "s@PRODUCT_NAME.*@PRODUCT_NAME := ${gen_lunch}@" -i $gen_mk.mk
