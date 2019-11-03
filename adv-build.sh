@@ -109,6 +109,7 @@ ROM types:
   e-pie
   e-oreo
   evox90
+  evox100
   havoc81
   havoc90
   lineage151
@@ -165,6 +166,13 @@ function get_rom_type() {
                 mainrepo="https://github.com/Evolution-X/platform_manifest.git"
                 mainbranch="pie"
                 localManifestBranch="android-9.0"
+                treble_generate=""
+                extra_make_options=""
+                ;;
+            evox100)
+                mainrepo="https://github.com/EvoX-Temp/manifest.git"
+                mainbranch="ten"
+                localManifestBranch="android-10.0"
                 treble_generate=""
                 extra_make_options=""
                 ;;
