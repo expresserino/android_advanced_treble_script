@@ -331,10 +331,10 @@ function get_rom_type() {
                 treble_generate="pixel"
                 extra_make_options="WITHOUT_CHECK_API=true"
                 ;;
-            pixel90)
-                mainrepo="https://github.com/PixelExperience-P/manifest.git"
-                mainbranch="pie"
-                localManifestBranch="android-9.0"
+            pixel100)
+                mainrepo="https://github.com/Pe-wip/manifest.git"
+                mainbranch="ten"
+                localManifestBranch="android-10.0"
                 treble_generate="pixel"
                 extra_make_options="WITHOUT_CHECK_API=true"
                 ;;
