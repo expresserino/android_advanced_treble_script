@@ -422,10 +422,10 @@ function get_rom_type() {
 		treble_generate="slim"
 		extra_make_options="WITHOUT_CHECK_API=true"
 		;;
-	    havoc81)
+	    havoc100)
 		mainrepo="https://github.com/Havoc-OS/android_manifest.git"
-		mainbranch="oreo"
-		localManifestBranch="android-8.1"
+		mainbranch="ten"
+		localManifestBranch="android-10.0"
 		treble_generate="havoc"
 		extra_make_options="WITHOUT_CHECK_API=true"
 		;;
@@ -549,14 +549,27 @@ function add_mks() {
 }
 
 function fix_missings() {
-	if [[ "$localManifestBranch" == *"10"* ]]; then
+	if [[ "$localManifestBranch" == *"9"* ]]; then
 		# fix kernel source missing (on pie)
 		sed 's;.*KERNEL_;//&;' -i vendor/*/build/soong/Android.bp 2>/dev/null || true
-		rm -rf vendor/*/packages/overlays/NoCutout*
+		mkdir -p device/sample/etc
+		cd device/sample/etc/
+		wget -O apns-full-conf.xml https://github.com/LineageOS/android_vendor_lineage/raw/lineage-16.0/prebuilt/common/etc/apns-conf.xml 2>/dev/null
+		cd ../../..
 	fi
-	mkdir -p device/sample/etc
-	wget --output-document=device/sample/etc/apns-full-conf.xml https://github.com/LineageOS/android_vendor_lineage/raw/lineage-17.0/prebuilt/common/etc/apns-conf.xml 2>/dev/null
-
+	if [[ "$localManifestBranch" == *"10"* ]]; then
+		# fix kernel source missing (on Q)
+		sed 's;.*KERNEL_;//&;' -i vendor/*/build/soong/Android.bp 2>/dev/null || true
+		mkdir -p device/sample/etc
+		cd device/sample/etc
+		wget -O apns-full-conf.xml https://github.com/LineageOS/android_vendor_lineage/raw/lineage-17.0/prebuilt/common/etc/apns-conf.xml 2>/dev/null
+		cd ../../..
+		mkdir -p device/generic/common/nfc
+		cd device/generic/common/nfc
+		wget -O libnfc-nci.conf https://github.com/ExpressLuke/treble_experimentations/raw/master/files/libnfc-nci.conf
+		cd ../../../..
+		sed -i '/Copies the APN/,/include $(BUILD_PREBUILT)/{/include $(BUILD_PREBUILT)/ s/.*/ /; t; d}' vendor/*/prebuilt/common/Android.mk 2>/dev/null || true
+	fi
 }
 
 function patch_things() {
