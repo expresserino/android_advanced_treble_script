@@ -170,7 +170,7 @@ system/vold"
 ;;
         android-10.0)
             PIE=true
-            BRANCH=android-10.0.0_r9-phh
+            BRANCH=android-10.0.0_r14-phh
 SUBS_REPOS="
 bionic
 bootable/recovery
